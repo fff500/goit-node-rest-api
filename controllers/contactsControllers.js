@@ -43,4 +43,5 @@ export default {
   deleteContact: controllerWrapper(deleteContact),
   createContact: controllerWrapper(createContact),
   updateContact: controllerWrapper(updateContact),
+  updateStatusContact: controllerWrapper(updateContact),
 };
