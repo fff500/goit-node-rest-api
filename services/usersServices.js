@@ -9,4 +9,4 @@ export const saveUser = async (data) => {
   return User.create({ ...data, password: hashPassword });
 };
 
-// export const updateUser = (filter, data) => User.findOneAndUpdate(filter, data);
+export const updateUser = (filter, data) => User.findOneAndUpdate(filter, data);
