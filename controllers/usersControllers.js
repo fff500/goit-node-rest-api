@@ -40,7 +40,15 @@ const login = async (req, res) => {
   });
 };
 
+const logout = async (req, res) => {
+  const { _id } = req.user;
+  await usersServices.updateUser({ _id }, { token: '' });
+
+  res.status(204).json({ message: 'No content' });
+};
+
 export default {
   register: controllerWrapper(register),
   login: controllerWrapper(login),
+  logout: controllerWrapper(logout),
 };
