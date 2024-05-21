@@ -1,0 +1,20 @@
+import * as usersServices from '../services/usersServices.js';
+import HttpError from '../helpers/HttpError.js';
+import controllerWrapper from '../decorators/controllerWrapper.js';
+
+const register = async (req, res) => {
+  const user = await usersServices.findUser({ email: req.body.email });
+
+  if (user) throw HttpError(409, 'Email is already in use');
+
+  const newUser = await usersServices.saveUser(req.body);
+
+  res.status(201).json({
+    email: newUser.email,
+    password: newUser.password,
+  });
+};
+
+export default {
+  register: controllerWrapper(register),
+};
