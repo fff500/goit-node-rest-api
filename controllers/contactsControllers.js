@@ -2,8 +2,13 @@ import * as contactsServices from '../services/contactsServices.js';
 import HttpError from '../helpers/HttpError.js';
 import controllerWrapper from '../decorators/controllerWrapper.js';
 
-const getAllContacts = async (_, res) => {
-  const result = await contactsServices.listContacts();
+const getAllContacts = async (req, res) => {
+  const { page = 1, limit = 10, favorite = false } = req.query;
+  const filter = { favorite };
+  const skip = (page - 1) * limit;
+  const settings = { skip, limit, favorite };
+
+  const result = await contactsServices.listContacts({ filter, settings });
   res.json(result);
 };
 
