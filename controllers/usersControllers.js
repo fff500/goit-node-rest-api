@@ -56,9 +56,22 @@ const getCurrentUser = async (req, res) => {
   });
 };
 
+const updateSubscription = async (req, res) => {
+  const { _id } = req.user;
+  const { subscription } = req.body;
+
+  await usersServices.updateUser({ _id }, { subscription });
+
+  res.json({
+    _id,
+    subscription,
+  });
+};
+
 export default {
   register: controllerWrapper(register),
   login: controllerWrapper(login),
   logout: controllerWrapper(logout),
   getCurrentUser: controllerWrapper(getCurrentUser),
+  updateSubscription: controllerWrapper(updateSubscription),
 };

@@ -4,7 +4,11 @@ import usersControllers from '../controllers/usersControllers.js';
 import isBodyEmpty from '../middlewares/isBodyEmpty.js';
 import isAuthenticated from '../middlewares/isAuthenticated.js';
 import validateBody from '../decorators/validateBody.js';
-import { loginSchema, registerSchema } from '../schemas/usersSchemas.js';
+import {
+  loginSchema,
+  registerSchema,
+  updateSubscriptionSchema,
+} from '../schemas/usersSchemas.js';
 
 const usersRouter = express.Router();
 
@@ -25,5 +29,12 @@ usersRouter.post(
 usersRouter.post('/logout', isAuthenticated, usersControllers.logout);
 
 usersRouter.get('/current', isAuthenticated, usersControllers.getCurrentUser);
+
+usersRouter.patch(
+  '/',
+  isAuthenticated,
+  validateBody(updateSubscriptionSchema),
+  usersControllers.updateSubscription
+);
 
 export default usersRouter;
