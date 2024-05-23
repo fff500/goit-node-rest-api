@@ -12,18 +12,21 @@ const register = async (req, res) => {
   const newUser = await usersServices.saveUser(req.body);
 
   res.status(201).json({
-    email: newUser.email,
-    password: newUser.password,
+    user: {
+      email: newUser.email,
+      subscription: newUser.subscription,
+    },
   });
 };
 
 const login = async (req, res) => {
   const { email, password } = req.body;
-
   const user = await usersServices.findUser({ email });
+
+  if (!user) throw HttpError(401, 'Email or password is wrong');
+
   const isPasswordValid = await validatePassword(password, user.password);
-  if (!user || !isPasswordValid)
-    throw HttpError(401, 'Email or password is wrong');
+  if (!isPasswordValid) throw HttpError(401, 'Email or password is wrong');
 
   const { _id: id } = user;
   const payload = { id };
