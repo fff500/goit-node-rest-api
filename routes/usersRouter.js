@@ -3,6 +3,7 @@ import express from 'express';
 import usersControllers from '../controllers/usersControllers.js';
 import isBodyEmpty from '../middlewares/isBodyEmpty.js';
 import isAuthenticated from '../middlewares/isAuthenticated.js';
+import upload from '../middlewares/upload.js';
 import validateBody from '../decorators/validateBody.js';
 import {
   loginSchema,
@@ -35,6 +36,13 @@ usersRouter.patch(
   isAuthenticated,
   validateBody(updateSubscriptionSchema),
   usersControllers.updateSubscription
+);
+
+usersRouter.patch(
+  '/avatar',
+  upload.single('avatar'),
+  isAuthenticated,
+  usersControllers.updateAvatar
 );
 
 export default usersRouter;
