@@ -4,6 +4,7 @@ import contactsController from '../controllers/contactsControllers.js';
 import isBodyEmpty from '../middlewares/isBodyEmpty.js';
 import isValidId from '../middlewares/isValidId.js';
 import isAuthenticated from '../middlewares/isAuthenticated.js';
+import upload from '../middlewares/upload.js';
 import validateBody from '../decorators/validateBody.js';
 import {
   createContactSchema,
@@ -42,6 +43,13 @@ contactsRouter.patch(
   isBodyEmpty,
   validateBody(updateStatusContactSchema),
   contactsController.updateStatusContact
+);
+
+contactsRouter.patch(
+  '/avatar/:id',
+  upload.single('avatar'),
+  isValidId,
+  contactsController.updateAvatarContact
 );
 
 export default contactsRouter;
