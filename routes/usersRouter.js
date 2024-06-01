@@ -39,7 +39,7 @@ usersRouter.patch(
 );
 
 usersRouter.patch(
-  '/avatar',
+  '/avatars',
   upload.single('avatar'),
   isAuthenticated,
   usersControllers.updateAvatar

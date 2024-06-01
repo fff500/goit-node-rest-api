@@ -83,13 +83,14 @@ const updateSubscription = async (req, res) => {
 };
 
 const updateAvatar = async (req, res) => {
+  if (!req.file) throw HttpError(404, 'Please, upload avatar.');
+
   const { _id } = req.user;
   const { path: oldPath, filename } = req.file;
   const newPath = path.join(avatarsPath, filename);
+  const avatarImage = await Jimp.read(oldPath);
+  avatarImage.resize(250, 250).write(oldPath);
   await fs.rename(oldPath, newPath);
-
-  const avatarImage = await Jimp.read(newPath);
-  avatarImage.resize(250, 250);
 
   const avatarURL = path.join('avatars', filename);
   await usersServices.updateUser({ _id }, { avatarURL });
