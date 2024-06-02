@@ -6,6 +6,7 @@ import isAuthenticated from '../middlewares/isAuthenticated.js';
 import upload from '../middlewares/upload.js';
 import validateBody from '../decorators/validateBody.js';
 import {
+  emailVerificationSchema,
   loginSchema,
   registerSchema,
   updateSubscriptionSchema,
@@ -18,6 +19,15 @@ usersRouter.post(
   isBodyEmpty,
   validateBody(registerSchema),
   usersControllers.register
+);
+
+usersRouter.get('/verify/:verificationToken', usersControllers.verify);
+
+usersRouter.post(
+  '/verify',
+  isBodyEmpty,
+  validateBody(emailVerificationSchema),
+  usersControllers.resendVerificationEmail
 );
 
 usersRouter.post(
